@@ -1,0 +1,30 @@
+{
+	"name": "born-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "node ./src/index.js",
+		"dev": "npx nodemon ./src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/williameiji/born-backend.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/williameiji/born-backend/issues"
+	},
+	"homepage": "https://github.com/williameiji/born-backend#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"mongodb": "^4.8.0",
+		"nodemon": "^2.0.19"
+	}
+}
