@@ -1,5 +1,6 @@
 import db from "../../Databases/mongo.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 async function checkUser(req, res, next) {
 	const { nome, password } = req.body;
@@ -17,6 +18,14 @@ async function checkUser(req, res, next) {
 			isUserRegister &&
 			bcrypt.compareSync(data.password, isUserRegister.password)
 		) {
+			const token = jwt.sign(
+				{
+					data: isUserRegister.name,
+				},
+				process.env.SECRET_KEY_TOKEN
+			);
+
+			res.locals.token = token;
 			next();
 		}
 	} catch (error) {

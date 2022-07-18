@@ -1,6 +1,7 @@
 export function login(req, res, next) {
 	try {
-		res.sendStatus(200);
+		const token = res.locals.token;
+		res.status(200).send(token);
 	} catch (error) {
 		res.status(500).send("Erro no servidor");
 	}
