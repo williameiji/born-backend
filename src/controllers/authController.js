@@ -1,21 +1,17 @@
-import dotenv from "dotenv";
+import * as authService from "../services/authService.js";
 
-dotenv.config();
+export async function login(req, res) {
+	const data = req.body;
 
-export function login(req, res, next) {
-	try {
-		const token = res.locals.token;
+	const token = await authService.login(data);
 
-		res.status(200).send(token);
-	} catch (error) {
-		res.status(500).send("Erro no servidor");
-	}
+	res.status(200).send(token);
 }
 
-export function signup(req, res, next) {
-	try {
-		res.sendStatus(201);
-	} catch (error) {
-		res.status(500).send("Erro no servidor");
-	}
+export async function signup(req, res) {
+	const data = req.body;
+
+	await authService.signup(data);
+
+	res.sendStatus(201);
 }

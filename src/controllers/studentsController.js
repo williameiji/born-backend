@@ -1,29 +1,25 @@
-import dotenv from "dotenv";
+import * as studentService from "../services/studentService.js";
 
-dotenv.config();
+export async function newStudent(req, res) {
+	const data = req.body;
 
-export function newStudent(req, res, next) {
-	try {
-		res.status(201).send("Cadastro efetuado com sucesso");
-	} catch (error) {
-		res.sendStatus(500);
-	}
+	await studentService.newStudent(data);
+
+	res.status(201).send("Cadastro efetuado com sucesso");
 }
 
-export function findStudent(req, res, next) {
-	try {
-		const data = res.locals.data;
+export async function findStudent(req, res) {
+	const name = req.params.name;
 
-		res.send(data);
-	} catch (error) {
-		res.sendStatus(500);
-	}
+	const data = await studentService.findStudent(name);
+
+	res.send(data);
 }
 
-export function editStudent(req, res, next) {
-	try {
-		res.status(200).send("Dados editados com sucesso!");
-	} catch (error) {
-		res.sendStatus(500);
-	}
+export async function editStudent(req, res) {
+	const data = req.body;
+
+	await studentService.editStudent(data);
+
+	res.status(200).send("Dados editados com sucesso!");
 }

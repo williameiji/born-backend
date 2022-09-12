@@ -1,13 +1,10 @@
 import { Router } from "express";
 
-import checkUser from "../infra/middleware/checkUser.js";
-import { login, signup } from "../controllers/authController.js";
-import addNewUser from "../infra/middleware/addNewUser.js";
-import verifyToken from "../infra/validators/verifyToken.js";
+import * as authController from "../controllers/authController.js";
 
 const authRouter = Router();
 
-authRouter.post("/login", checkUser, login);
-authRouter.post("/signup", addNewUser, signup);
+authRouter.post("/login", authController.login);
+authRouter.post("/signup", authController.signup);
 
 export default authRouter;
