@@ -9,6 +9,7 @@ export function newStudent(req, res, next) {
 export function findStudent(req, res, next) {
 	try {
 		const data = res.locals.data;
+		res.set("Access-Control-Allow-Origin", "https://born-frontend.vercel.app");
 		res.send(data);
 	} catch (error) {
 		res.sendStatus(500);

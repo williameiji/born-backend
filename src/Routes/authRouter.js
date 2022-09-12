@@ -8,6 +8,6 @@ import verifyToken from "../Infra/validators/verifyToken.js";
 const authRouter = Router();
 
 authRouter.post("/login", checkUser, login);
-authRouter.post("/signup", verifyToken, addNewUser, signup);
+authRouter.post("/signup", addNewUser, signup);
 
 export default authRouter;
