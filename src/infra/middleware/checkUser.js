@@ -1,4 +1,4 @@
-import db from "../../Databases/mongo.js";
+import db from "../../databases/mongo.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

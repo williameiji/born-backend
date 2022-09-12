@@ -2,20 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import router from "./Routes/indexRouter.js";
+import router from "./routes/indexRouter.js";
 
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-const corsOptions = {
-	origin: process.env.FRONTEND_URI,
-	methods: "GET,PUT,POST",
-	credentials: true,
-	optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(router);
 

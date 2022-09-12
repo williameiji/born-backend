@@ -1,14 +1,14 @@
 import { Router } from "express";
 
-import addNewStudent from "../Infra/middleware/addNewStudent.js";
+import addNewStudent from "../infra/middleware/addNewStudent.js";
 import {
 	newStudent,
 	findStudent,
 	editStudent,
-} from "../Controllers/studentsController.js";
-import searchStudents from "../Infra/middleware/SearchStudent.js";
-import editStudentInformation from "../Infra/middleware/editStudentInformation.js";
-import verifyToken from "../Infra/validators/verifyToken.js";
+} from "../controllers/studentsController.js";
+import searchStudents from "../infra/middleware/SearchStudent.js";
+import editStudentInformation from "../infra/middleware/editStudentInformation.js";
+import verifyToken from "../infra/validators/verifyToken.js";
 
 const studentsRouter = Router();
 

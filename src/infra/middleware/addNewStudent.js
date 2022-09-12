@@ -1,4 +1,4 @@
-import db from "../../Databases/mongo.js";
+import db from "../../databases/mongo.js";
 
 async function addNewStudent(req, res, next) {
 	const data = req.body;
