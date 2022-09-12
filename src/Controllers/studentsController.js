@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 export function newStudent(req, res, next) {
 	try {
 		res.status(201).send("Cadastro efetuado com sucesso");
@@ -9,7 +13,7 @@ export function newStudent(req, res, next) {
 export function findStudent(req, res, next) {
 	try {
 		const data = res.locals.data;
-		res.set("Access-Control-Allow-Origin", "https://born-frontend.vercel.app");
+		res.set("Access-Control-Allow-Origin", process.env.FRONTEND_URI);
 		res.send(data);
 	} catch (error) {
 		res.sendStatus(500);
