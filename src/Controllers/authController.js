@@ -5,7 +5,7 @@ dotenv.config();
 export function login(req, res, next) {
 	try {
 		const token = res.locals.token;
-		res.set("Access-Control-Allow-Origin", process.env.FRONTEND_URI);
+		res.set({ "Access-Control-Allow-Origin": process.env.FRONTEND_URI });
 		res.status(200).send(token);
 	} catch (error) {
 		res.status(500).send("Erro no servidor");
