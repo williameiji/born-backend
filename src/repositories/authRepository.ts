@@ -1,7 +1,7 @@
 import { db } from "../databases/mongo";
 import * as types from "../infra/utils/types";
 
-export async function findUserByName(name: string) {
+export async function findUserByName(name: string): Promise<types.TUser> {
 	return await db.users.findOne({
 		name,
 	});

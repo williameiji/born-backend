@@ -3,7 +3,7 @@ import * as authService from "../services/authService";
 import * as types from "../infra/utils/types";
 
 export async function login(req: Request, res: Response) {
-	const data = req.body;
+	const data = req.body as types.TLogin;
 
 	const token = await authService.login(data);
 

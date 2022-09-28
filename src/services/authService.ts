@@ -7,7 +7,7 @@ import * as types from "../infra/utils/types";
 
 dotenv.config();
 
-export async function login(data: { name: string; password: string }) {
+export async function login(data: types.TLogin) {
 	const user = await authRepository.findUserByName(data.name);
 
 	if (user && bcrypt.compareSync(data.password, user.password)) {
