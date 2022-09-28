@@ -1,4 +1,5 @@
 import { db } from "../databases/mongo";
+import * as types from "../infra/utils/types";
 
 export async function findUserByName(name: string) {
 	return await db.users.findOne({
@@ -6,9 +7,8 @@ export async function findUserByName(name: string) {
 	});
 }
 
-export async function insert(name: string, password: string) {
+export async function insert(data: types.TSignup) {
 	await db.users.insertOne({
-		name,
-		password,
+		data,
 	});
 }
