@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 
 import * as authRepository from "../repositories/authRepository";
 
-export async function login(data: { nome: string; password: string }) {
-	const user = await authRepository.findUserByName(data.nome);
+export async function login(data: { name: string; password: string }) {
+	const user = await authRepository.findUserByName(data.name);
 
 	if (user && bcrypt.compareSync(data.password, user.password)) {
 		const token = jwt.sign(
@@ -17,12 +17,12 @@ export async function login(data: { nome: string; password: string }) {
 
 		return token;
 	} else {
-		throw { code: "Anauthorized", message: "Senha incorreta" };
+		throw { code: "Anauthorized", message: "Login/Senha incorretos" };
 	}
 }
 
-export async function signup(data: { nome: string; password: string }) {
+export async function signup(data: { name: string; password: string }) {
 	const encryptedPassword = bcrypt.hashSync(data.password, 10);
 
-	await authRepository.insert(data.nome, encryptedPassword);
+	await authRepository.insert(data.name, encryptedPassword);
 }

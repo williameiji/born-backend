@@ -1,24 +1,21 @@
-import db from "../databases/mongo";
+import { db } from "../databases/mongo";
 import { ObjectId } from "mongodb";
 import type { WithId, Document } from "mongodb";
 
 export async function insert(data: TStudent) {
-	await db.collection("students").insertOne(data);
+	await db.students.insertOne(data);
 }
 
 export async function findStudentByPartialName(name: string) {
-	return await db
-		.collection("students")
-		.find({ name: new RegExp(name, "i") })
-		.toArray();
+	return await db.students.find({ name: new RegExp(name, "i") }).toArray();
 }
 
 export async function findByName(name: string): Promise<Student> {
-	return (await db.collection("students").findOne({ name })) as Student;
+	return (await db.students.findOne({ name })) as Student;
 }
 
 export async function edit(student: TStudent, data: TStudent) {
-	await db.collection("students").updateOne(student, {
+	await db.students.updateOne(student, {
 		$set: {
 			date: data.date,
 			value: data.value,
