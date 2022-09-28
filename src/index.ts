@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import router from "./routes/indexRouter";
 import errorHandler from "./infra/middleware/errorHandler";
 
@@ -14,6 +13,4 @@ app.use(cors());
 app.use(router);
 app.use(errorHandler);
 
-app.listen(process.env.PORT, () => {
-	console.log("Server running on port " + process.env.PORT);
-});
+export default app;
