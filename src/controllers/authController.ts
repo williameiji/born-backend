@@ -6,8 +6,6 @@ export async function login(req: Request, res: Response) {
 
 	const token = await authService.login(data);
 
-	console.log(token);
-
 	res.status(200).send(token);
 }
 
