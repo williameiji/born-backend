@@ -1,9 +1,10 @@
+import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-async function verifyToken(req, res, next) {
+async function verifyToken(req: Request, res: Response, next: NextFunction) {
 	const getToken = req.headers["authorization"];
 	const token = getToken?.replace("Bearer ", "");
 

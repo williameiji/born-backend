@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import * as authRepository from "../repositories/authRepository.js";
+import * as authRepository from "../repositories/authRepository";
 
-export async function login(data) {
+export async function login(data: { nome: string; password: string }) {
 	const user = await authRepository.findUserByName(data.nome);
 
 	if (user && bcrypt.compareSync(data.password, user.password)) {
@@ -21,7 +21,7 @@ export async function login(data) {
 	}
 }
 
-export async function signup(data) {
+export async function signup(data: { nome: string; password: string }) {
 	const encryptedPassword = bcrypt.hashSync(data.password, 10);
 
 	await authRepository.insert(data.nome, encryptedPassword);

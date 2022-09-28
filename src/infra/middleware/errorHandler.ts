@@ -1,4 +1,11 @@
-export default async function errorHandler(error, req, res, next) {
+import { Request, Response, NextFunction } from "express";
+
+export default async function errorHandler(
+	error: any,
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
 	if (error.code === "BadRequest") return res.status(400).send(error.message);
 	if (error.code === "WrongType") return res.status(422).send(error.message);
 	if (error.code === "Anauthorized") return res.status(401).send(error.message);

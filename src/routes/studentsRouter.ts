@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import * as studentController from "../controllers/studentsController.js";
-import verifyToken from "../infra/validators/verifyToken.js";
+import * as studentController from "../controllers/studentsController";
+import verifyToken from "../infra/validators/verifyToken";
 
 const studentsRouter = Router();
 

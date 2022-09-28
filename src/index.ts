@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import router from "./routes/indexRouter.js";
-import errorHandler from "./infra/middleware/errorHandler.js";
+import router from "./routes/indexRouter";
+import errorHandler from "./infra/middleware/errorHandler";
 
 dotenv.config();
 

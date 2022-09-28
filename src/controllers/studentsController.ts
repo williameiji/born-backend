@@ -1,6 +1,7 @@
-import * as studentService from "../services/studentService.js";
+import { Request, Response } from "express";
+import * as studentService from "../services/studentService";
 
-export async function newStudent(req, res) {
+export async function newStudent(req: Request, res: Response) {
 	const data = req.body;
 
 	await studentService.newStudent(data);
@@ -8,7 +9,7 @@ export async function newStudent(req, res) {
 	res.status(201).send("Cadastro efetuado com sucesso");
 }
 
-export async function findStudent(req, res) {
+export async function findStudent(req: Request, res: Response) {
 	const name = req.params.name;
 
 	const data = await studentService.findStudent(name);
@@ -16,7 +17,7 @@ export async function findStudent(req, res) {
 	res.send(data);
 }
 
-export async function editStudent(req, res) {
+export async function editStudent(req: Request, res: Response) {
 	const data = req.body;
 
 	await studentService.editStudent(data);
