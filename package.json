@@ -31,7 +31,6 @@
 		"nodemon": "^2.0.19"
 	},
 	"devDependencies": {
-		"@prisma/client": "^4.4.0",
 		"@types/bcrypt": "^5.0.0",
 		"@types/cors": "^2.8.12",
 		"@types/dotenv": "^8.2.0",
