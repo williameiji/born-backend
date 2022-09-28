@@ -1,5 +1,5 @@
 import { db } from "../databases/mongo";
-import * as types from "../infra//utils/types";
+import * as types from "../infra/utils/types";
 
 export async function insert(data: types.TStudent) {
 	await db.students.insertOne(data);
