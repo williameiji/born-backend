@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import router from "./routes/indexRouter.js";
-import errorHandler from "./infra/validators/errorHandler.js";
+import errorHandler from "./infra/middleware/errorHandler.js";
 
 dotenv.config();
 
