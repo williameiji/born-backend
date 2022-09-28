@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
 
-export interface Signup {
+export interface Auth {
 	id: ObjectId;
 	name: string;
 	password: string;
 	key: number;
 }
 
-export type TSignup = Omit<Signup, "id">;
+export type TAuth = Omit<Auth, "id">;

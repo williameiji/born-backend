@@ -7,8 +7,9 @@ export async function findUserByName(name: string) {
 	});
 }
 
-export async function insert(data: types.TSignup) {
+export async function insert(data: types.TAuth) {
 	await db.users.insertOne({
-		data,
+		name: data.name,
+		password: data.password,
 	});
 }

@@ -1,8 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 import * as authRepository from "../repositories/authRepository";
 import * as types from "../infra/utils/types";
+
+dotenv.config();
 
 export async function login(data: { name: string; password: string }) {
 	const user = await authRepository.findUserByName(data.name);
@@ -22,8 +25,12 @@ export async function login(data: { name: string; password: string }) {
 	}
 }
 
-export async function signup(data: types.TSignup) {
+export async function signup(data: types.TAuth) {
 	const encryptedPassword = bcrypt.hashSync(data.password, 10);
 
-	await authRepository.insert({ ...data, password: encryptedPassword });
+	if (data.key === Number(process.env.COMPANY_KEY)) {
+		await authRepository.insert({ ...data, password: encryptedPassword });
+	} else {
+		throw { code: "Anauthorized", message: "Chave da empresa incorreta" };
+	}
 }
