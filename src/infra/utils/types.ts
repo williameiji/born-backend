@@ -8,3 +8,5 @@ export interface Auth {
 }
 
 export type TAuth = Omit<Auth, "id">;
+
+export type TLogin = Omit<Auth, "id" | "key">;

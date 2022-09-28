@@ -11,7 +11,7 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function signup(req: Request, res: Response) {
-	const data = req.body;
+	const data = req.body as types.TAuth;
 
 	await authService.signup(data);
 
