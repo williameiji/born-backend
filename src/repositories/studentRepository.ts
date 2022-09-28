@@ -1,5 +1,6 @@
 import { db } from "../databases/mongo";
 import * as types from "../infra/utils/types";
+import { ObjectId } from "mongodb";
 
 export async function insert(data: types.TStudent) {
 	await db.students.insertOne(data);
@@ -9,8 +10,9 @@ export async function findStudentByPartialName(name: string) {
 	return await db.students.find({ name: new RegExp(name, "i") }).toArray();
 }
 
-export async function findByName(name: string): Promise<types.Student> {
-	return (await db.students.findOne({ name })) as types.Student;
+export async function findById(id: ObjectId): Promise<types.Student> {
+	const searchId = new ObjectId(id);
+	return (await db.students.findOne({ _id: searchId })) as types.Student;
 }
 
 export async function edit(student: types.TStudent, data: types.TStudent) {

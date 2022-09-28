@@ -12,7 +12,7 @@ export async function findStudent(name: string) {
 }
 
 export async function editStudent(data: types.TStudent) {
-	const student = await studentRepository.findByName(data.name);
+	const student = await studentRepository.findById(data._id);
 
 	if (!student) throw { code: "NotFound", message: "Aluno não encontrado!" };
 
