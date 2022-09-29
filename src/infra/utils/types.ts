@@ -33,3 +33,5 @@ export interface Student extends WithId<Document> {
 }
 
 export type TStudent = Partial<Student>;
+
+export type TNewStudent = Omit<Student, "id">;
