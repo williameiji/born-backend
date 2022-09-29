@@ -164,4 +164,23 @@ describe("Student test", () => {
 		expect(findStudent).toBeCalled();
 		expect(edit).toBeCalled();
 	});
+
+	it("Test edit student information with invalid params", async () => {
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockResolvedValueOnce(null);
+
+		const student = await studentFactory();
+
+		const error = studentService.editStudent({
+			_id: new ObjectId("6335ac0903185b58e03c4715"),
+			...student,
+		});
+
+		expect(findStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "NotFound",
+			message: "Aluno não encontrado!",
+		});
+	});
 });
