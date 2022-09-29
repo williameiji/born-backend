@@ -5,6 +5,7 @@ import * as studentRepository from "../../src/repositories/studentRepository";
 import { userFactory } from "../factories/userFactory";
 import { studentFactory } from "../factories/studentFactory";
 import bcrypt from "bcrypt";
+import { ObjectId } from "mongodb";
 
 beforeEach(async () => {
 	jest.resetAllMocks();
@@ -118,5 +119,26 @@ describe("Student test", () => {
 		await studentService.newStudent(student);
 
 		expect(insertStudent).toBeCalled();
+	});
+
+	it("Test find student by partial name", async () => {
+		const student = await studentFactory();
+
+		const nameToSearch = "teste";
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findStudentByPartialName")
+			.mockResolvedValueOnce([
+				{
+					_id: new ObjectId("6335ac0903185b58e03c4715"),
+					...student,
+				},
+			]);
+
+		const result = await studentService.findStudent(nameToSearch);
+
+		expect(findStudent).toBeCalled();
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBeGreaterThanOrEqual(0);
 	});
 });
