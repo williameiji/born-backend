@@ -20,9 +20,7 @@ export async function signup(data: types.TAuth) {
 
 	if (user) throw { code: "Conflict", message: "Usuário já cadastrado!" };
 
-	const SALT = 10;
-
-	const encryptedPassword = bcrypt.hashSync(data.password, SALT);
+	const encryptedPassword = encryptPassword(data.password);
 
 	if (data.key === Number(process.env.COMPANY_KEY)) {
 		await authRepository.insert({ ...data, password: encryptedPassword });
@@ -45,4 +43,10 @@ function checkPassword(user: types.TLogin, data: types.TLogin) {
 	} else {
 		throw { code: "Anauthorized", message: "Login/Senha incorretos" };
 	}
+}
+
+function encryptPassword(password: string) {
+	const SALT = 10;
+
+	return bcrypt.hashSync(password, SALT);
 }
