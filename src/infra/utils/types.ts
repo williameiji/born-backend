@@ -15,7 +15,7 @@ export type TLogin = Omit<Auth, "id" | "key">;
 export type TUser = Omit<Auth, "key">;
 
 export interface Student extends WithId<Document> {
-	id: ObjectId;
+	_id: ObjectId;
 	date: string;
 	value: string;
 	name: string;
