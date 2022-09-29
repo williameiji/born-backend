@@ -19,7 +19,7 @@ export async function loginScenario() {
 	};
 }
 
-export async function searchStudentScenario() {
+export async function scenarioWithStudent() {
 	const student = await studentFactory();
 
 	await db.students.insertOne(student);

@@ -4,7 +4,7 @@ import { userFactory } from "../factories/userFactory";
 import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
 import {
 	loginScenario,
-	searchStudentScenario,
+	scenarioWithStudent,
 } from "../factories/scenarioFactory";
 import { studentFactory } from "../factories/studentFactory";
 import { createToken } from "../../src/services/authService";
@@ -140,7 +140,7 @@ describe("Student test", () => {
 	});
 
 	it("Test search student with partial name", async () => {
-		const student = await searchStudentScenario();
+		const student = await scenarioWithStudent();
 
 		const result = await server.get(`/students/search/${student.name}`);
 
