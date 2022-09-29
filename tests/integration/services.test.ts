@@ -2,6 +2,7 @@ import supertest from "supertest";
 import app from "../../src/index";
 import { userFactory } from "../factories/userFactory";
 import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
+import { loginScenario } from "../factories/scenarioFactory";
 
 const server = supertest(app);
 
@@ -55,7 +56,13 @@ describe("Auth test", () => {
 		expect(result.status).toBe(422);
 	});
 
-	it.todo("Test login with valid params");
+	it("Test login with valid params", async () => {
+		const data = await loginScenario();
+
+		const result = await server.post("/login").send(data);
+
+		expect(result.status).toBe(200);
+	});
 
 	it.todo("Test login with invalid username");
 
