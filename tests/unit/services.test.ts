@@ -45,7 +45,21 @@ describe("Auth test", () => {
 		});
 	});
 
-	it.todo("Test signup with invalid username");
+	it("Test signup with invalid company key", async () => {
+		const findUser = jest
+			.spyOn(authRepository, "findUserByName")
+			.mockResolvedValue(null);
+
+		const user = await userFactory();
+
+		const error = authService.signup({ ...user, key: 654321 });
+
+		expect(findUser).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "Anauthorized",
+			message: "Chave da empresa incorreta",
+		});
+	});
 
 	it.todo("Test signup with invalid password");
 
