@@ -83,4 +83,12 @@ describe("Auth test", () => {
 
 		expect(result.status).toBe(401);
 	});
+
+	it("Test login with empty username", async () => {
+		const data = await loginScenario();
+
+		const result = await server.post("/login").send({ ...data, name: "" });
+
+		expect(result.status).toBe(422);
+	});
 });
