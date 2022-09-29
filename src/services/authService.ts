@@ -10,19 +10,9 @@ dotenv.config();
 export async function login(data: types.TLogin) {
 	const user = await authRepository.findUserByName(data.name);
 
-	if (user && bcrypt.compareSync(data.password, user.password)) {
-		const token = jwt.sign(
-			{
-				id: user.id,
-			},
-			process.env.SECRET_KEY_TOKEN,
-			{ expiresIn: 20 * 60 }
-		);
+	const token = checkPassword(user, data);
 
-		return token;
-	} else {
-		throw { code: "Anauthorized", message: "Login/Senha incorretos" };
-	}
+	return token;
 }
 
 export async function signup(data: types.TAuth) {
@@ -38,5 +28,21 @@ export async function signup(data: types.TAuth) {
 		await authRepository.insert({ ...data, password: encryptedPassword });
 	} else {
 		throw { code: "Anauthorized", message: "Chave da empresa incorreta" };
+	}
+}
+
+function checkPassword(user: types.TLogin, data: types.TLogin) {
+	if (user && bcrypt.compareSync(data.password, user.password)) {
+		const token = jwt.sign(
+			{
+				id: user.id,
+			},
+			process.env.SECRET_KEY_TOKEN,
+			{ expiresIn: 20 * 60 }
+		);
+
+		return token;
+	} else {
+		throw { code: "Anauthorized", message: "Login/Senha incorretos" };
 	}
 }
