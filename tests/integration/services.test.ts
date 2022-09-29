@@ -31,7 +31,13 @@ describe("Auth test", () => {
 		expect(isCreated).not.toBeNull();
 	});
 
-	it.todo("Test signup with invalid company key");
+	it("Test signup with invalid company key", async () => {
+		const user = await userFactory();
+
+		const result = await server.post("/signup").send({ ...user, key: 654321 });
+
+		expect(result.status).toBe(401);
+	});
 
 	it.todo("Test signup with invalid username");
 
