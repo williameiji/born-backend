@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { ObjectId } from "mongodb";
 
 import * as authRepository from "../repositories/authRepository";
 import * as types from "../infra/utils/types";
@@ -45,7 +46,7 @@ function encryptPassword(password: string) {
 	return bcrypt.hashSync(password, SALT);
 }
 
-export function createToken(id: string) {
+export function createToken(id: ObjectId) {
 	return jwt.sign(
 		{
 			id,
