@@ -31,13 +31,7 @@ export async function signup(data: types.TAuth) {
 
 function checkPassword(user: types.TLogin, data: types.TLogin) {
 	if (user && bcrypt.compareSync(data.password, user.password)) {
-		const token = jwt.sign(
-			{
-				id: user.id,
-			},
-			process.env.SECRET_KEY_TOKEN,
-			{ expiresIn: 20 * 60 }
-		);
+		const token = createToken(user.id);
 
 		return token;
 	} else {
@@ -49,4 +43,14 @@ function encryptPassword(password: string) {
 	const SALT = 10;
 
 	return bcrypt.hashSync(password, SALT);
+}
+
+export function createToken(id: string) {
+	return jwt.sign(
+		{
+			id,
+		},
+		process.env.SECRET_KEY_TOKEN,
+		{ expiresIn: 60 * 60 }
+	);
 }
