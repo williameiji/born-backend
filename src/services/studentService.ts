@@ -1,7 +1,7 @@
 import * as studentRepository from "../repositories/studentRepository";
 import * as types from "../infra/utils/types";
 
-export async function newStudent(data: types.Student) {
+export async function newStudent(data: types.TNewStudent) {
 	await studentRepository.insert(data);
 }
 
