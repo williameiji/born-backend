@@ -91,4 +91,12 @@ describe("Auth test", () => {
 
 		expect(result.status).toBe(422);
 	});
+
+	it("Test login with empty password", async () => {
+		const data = await loginScenario();
+
+		const result = await server.post("/login").send({ ...data, password: "" });
+
+		expect(result.status).toBe(422);
+	});
 });
