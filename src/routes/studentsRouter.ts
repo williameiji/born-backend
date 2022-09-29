@@ -5,12 +5,12 @@ import verifyToken from "../infra/validators/verifyToken";
 
 const studentsRouter = Router();
 
-studentsRouter.post(
-	"/signupStudents",
+studentsRouter.post("/students", verifyToken, studentController.newStudent);
+studentsRouter.get("/students/search/:name", studentController.findStudent);
+studentsRouter.put(
+	"/students/edit",
 	verifyToken,
-	studentController.newStudent
+	studentController.editStudent
 );
-studentsRouter.get("/searchstudents/:name", studentController.findStudent);
-studentsRouter.put("/edit", verifyToken, studentController.editStudent);
 
 export default studentsRouter;
