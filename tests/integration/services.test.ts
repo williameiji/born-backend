@@ -60,8 +60,10 @@ describe("Auth test", () => {
 		const data = await loginScenario();
 
 		const result = await server.post("/login").send(data);
+		const token = result.text;
 
 		expect(result.status).toBe(200);
+		expect(typeof token).toBe("string");
 	});
 
 	it("Test login with invalid username", async () => {
