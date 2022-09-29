@@ -80,7 +80,24 @@ describe("Auth test", () => {
 		expect(typeof result).toBe("string");
 	});
 
-	it.todo("Test login with invalid username");
+	it("Test login with invalid password", async () => {
+		const user = await userFactory();
+		delete user.key;
 
-	it.todo("Test login with invalid password");
+		const SALT = 10;
+
+		const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+
+		const findUser = jest
+			.spyOn(authRepository, "findUserByName")
+			.mockResolvedValueOnce({ name: user.name, password: encryptedPassword });
+
+		const error = authService.login({ ...user, password: "teste12345" });
+
+		expect(findUser).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "Anauthorized",
+			message: "Login/Senha incorretos",
+		});
+	});
 });
