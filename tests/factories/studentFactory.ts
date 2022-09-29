@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 
 export async function studentFactory() {
 	return {
-		date: faker.date.recent(10, "2020-01-01"),
+		date: String(faker.date.recent()),
 		value: faker.finance.amount(100, 200, 2),
 		name: faker.name.fullName(),
 		cpfStudent: faker.random.numeric(11),
