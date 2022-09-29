@@ -1,4 +1,5 @@
 import { userFactory } from "./userFactory";
+import { studentFactory } from "./studentFactory";
 import { db } from "../../src/databases/mongo";
 import bcrypt from "bcrypt";
 
@@ -16,4 +17,14 @@ export async function loginScenario() {
 		name: user.name,
 		password: user.password,
 	};
+}
+
+export async function searchStudentScenario() {
+	const student = await studentFactory();
+
+	await db.students.insertOne(student);
+
+	const newStudent = await db.students.findOne({ name: student.name });
+
+	return newStudent;
 }
