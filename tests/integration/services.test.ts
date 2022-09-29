@@ -175,4 +175,15 @@ describe("Student test", () => {
 
 		expect(result.status).toEqual(404);
 	});
+
+	it("Test edit student information without token", async () => {
+		const student = await scenarioWithStudent();
+
+		const result = await server
+			.put("/students/edit")
+			.send(student)
+			.set({ authorization: "Bearer", Accept: "application/json" });
+
+		expect(result.status).toBe(401);
+	});
 });
