@@ -9,6 +9,10 @@ beforeAll(async () => {
 	await connectToDatabase();
 });
 
+beforeEach(async () => {
+	await db.users.drop();
+});
+
 afterAll(async () => {
 	await mongoClient.close();
 });
