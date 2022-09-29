@@ -124,4 +124,15 @@ describe("Student test", () => {
 		expect(result.status).toBe(201);
 		expect(isCreated).not.toBeNull();
 	});
+
+	it("Test add new student without token", async () => {
+		const student = await studentFactory();
+
+		const result = await server
+			.post("/students")
+			.send(student)
+			.set({ authorization: "Bearer", Accept: "application/json" });
+
+		expect(result.status).toBe(401);
+	});
 });
