@@ -1,6 +1,7 @@
 import * as authService from "../../src/services/authService";
 import * as authRepository from "../../src/repositories/authRepository";
 import { userFactory } from "../factories/userFactory";
+import bcrypt from "bcrypt";
 
 beforeEach(async () => {
 	jest.resetAllMocks();
@@ -61,9 +62,23 @@ describe("Auth test", () => {
 		});
 	});
 
-	it.todo("Test signup with invalid password");
+	it("Test login with valid params", async () => {
+		const user = await userFactory();
+		delete user.key;
 
-	it.todo("Test login with valid params");
+		const SALT = 10;
+
+		const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+
+		const findUser = jest
+			.spyOn(authRepository, "findUserByName")
+			.mockResolvedValueOnce({ name: user.name, password: encryptedPassword });
+
+		const result = await authService.login(user);
+
+		expect(findUser).toBeCalled();
+		expect(typeof result).toBe("string");
+	});
 
 	it.todo("Test login with invalid username");
 
