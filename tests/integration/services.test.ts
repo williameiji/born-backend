@@ -10,7 +10,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-	await db.users.drop();
+	await db.users.deleteMany({});
 });
 
 afterAll(async () => {
