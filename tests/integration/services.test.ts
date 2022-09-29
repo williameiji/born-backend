@@ -47,7 +47,13 @@ describe("Auth test", () => {
 		expect(result.status).toBe(422);
 	});
 
-	it.todo("Test signup with invalid password");
+	it("Test signup with empty password", async () => {
+		const user = await userFactory();
+
+		const result = await server.post("/signup").send({ ...user, password: "" });
+
+		expect(result.status).toBe(422);
+	});
 
 	it.todo("Test login with valid params");
 
