@@ -3,6 +3,8 @@ import app from "../../src/index";
 import { userFactory } from "../factories/userFactory";
 import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
 import { loginScenario } from "../factories/scenarioFactory";
+import { studentFactory } from "../factories/studentFactory";
+import { createToken } from "../../src/services/authService";
 
 const server = supertest(app);
 
@@ -12,6 +14,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
 	await db.users.deleteMany({});
+	await db.students.deleteMany({});
 });
 
 afterAll(async () => {
@@ -98,5 +101,27 @@ describe("Auth test", () => {
 		const result = await server.post("/login").send({ ...data, password: "" });
 
 		expect(result.status).toBe(422);
+	});
+});
+
+describe("Student test", () => {
+	it("Test add new student with valid params", async () => {
+		const student = await studentFactory();
+
+		const id = "IdTests";
+
+		const token = createToken(id);
+
+		const result = await server
+			.post("/students")
+			.send(student)
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+
+		const isCreated = await db.students.findOne({
+			name: student.name,
+		});
+
+		expect(result.status).toBe(201);
+		expect(isCreated).not.toBeNull();
 	});
 });
