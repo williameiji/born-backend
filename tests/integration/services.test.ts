@@ -109,11 +109,11 @@ describe("Auth test", () => {
 
 describe("Student test", () => {
 	it("Test add new student with valid params", async () => {
-		const student = await studentFactory();
+		const student = await scenarioWithStudent();
 
-		const id = "IdTests";
+		const token = createToken(student._id);
 
-		const token = createToken(id);
+		delete student._id;
 
 		const result = await server
 			.post("/students")
