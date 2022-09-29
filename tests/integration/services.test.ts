@@ -74,5 +74,13 @@ describe("Auth test", () => {
 		expect(result.status).toBe(401);
 	});
 
-	it.todo("Test login with invalid password");
+	it("Test login with invalid password", async () => {
+		const data = await loginScenario();
+
+		const result = await server
+			.post("/login")
+			.send({ ...data, password: "teste" });
+
+		expect(result.status).toBe(401);
+	});
 });
