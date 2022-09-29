@@ -147,4 +147,17 @@ describe("Student test", () => {
 		expect(result.status).toBe(200);
 		expect(result.body).toBeInstanceOf(Array);
 	});
+
+	it("Test edit student information with valid params", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		const result = await server
+			.put("/students/edit")
+			.send(student)
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+
+		expect(result.status).toBe(200);
+	});
 });
