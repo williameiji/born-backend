@@ -26,6 +26,10 @@ export async function login(data: types.TLogin) {
 }
 
 export async function signup(data: types.TAuth) {
+	const user = await authRepository.findUserByName(data.name);
+
+	if (user) throw { code: "Conflict", message: "Usuário já cadastrado!" };
+
 	const SALT = 10;
 
 	const encryptedPassword = bcrypt.hashSync(data.password, SALT);
