@@ -160,4 +160,19 @@ describe("Student test", () => {
 
 		expect(result.status).toBe(200);
 	});
+
+	it("Test edit student information with invalid params", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		delete student._id;
+
+		const result = await server
+			.put("/students/edit")
+			.send(student)
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+
+		expect(result.status).toEqual(404);
+	});
 });
