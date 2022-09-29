@@ -26,7 +26,9 @@ export async function login(data: types.TLogin) {
 }
 
 export async function signup(data: types.TAuth) {
-	const encryptedPassword = bcrypt.hashSync(data.password, 10);
+	const SALT = 10;
+
+	const encryptedPassword = bcrypt.hashSync(data.password, SALT);
 
 	if (data.key === Number(process.env.COMPANY_KEY)) {
 		await authRepository.insert({ ...data, password: encryptedPassword });
