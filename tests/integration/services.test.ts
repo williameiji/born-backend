@@ -2,7 +2,10 @@ import supertest from "supertest";
 import app from "../../src/index";
 import { userFactory } from "../factories/userFactory";
 import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
-import { loginScenario } from "../factories/scenarioFactory";
+import {
+	loginScenario,
+	searchStudentScenario,
+} from "../factories/scenarioFactory";
 import { studentFactory } from "../factories/studentFactory";
 import { createToken } from "../../src/services/authService";
 
@@ -134,5 +137,14 @@ describe("Student test", () => {
 			.set({ authorization: "Bearer", Accept: "application/json" });
 
 		expect(result.status).toBe(401);
+	});
+
+	it("Test search student with partial name", async () => {
+		const student = await searchStudentScenario();
+
+		const result = await server.get(`/students/search/${student.name}`);
+
+		expect(result.status).toBe(200);
+		expect(result.body).toBeInstanceOf(Array);
 	});
 });
