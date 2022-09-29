@@ -27,7 +27,23 @@ describe("Auth test", () => {
 		expect(insertUser).toBeCalled();
 	});
 
-	it.todo("Test signup with invalid company key");
+	it("Test signup with user already registered", async () => {
+		const user = await userFactory();
+
+		delete user.key;
+
+		const findUser = jest
+			.spyOn(authRepository, "findUserByName")
+			.mockResolvedValue(user);
+
+		const error = authService.signup(user);
+
+		expect(findUser).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "Conflict",
+			message: "Usuário já cadastrado!",
+		});
+	});
 
 	it.todo("Test signup with invalid username");
 
