@@ -1,6 +1,9 @@
 import * as authService from "../../src/services/authService";
 import * as authRepository from "../../src/repositories/authRepository";
+import * as studentService from "../../src/services/studentService";
+import * as studentRepository from "../../src/repositories/studentRepository";
 import { userFactory } from "../factories/userFactory";
+import { studentFactory } from "../factories/studentFactory";
 import bcrypt from "bcrypt";
 
 beforeEach(async () => {
@@ -99,5 +102,21 @@ describe("Auth test", () => {
 			code: "Anauthorized",
 			message: "Login/Senha incorretos",
 		});
+	});
+});
+
+describe("Student test", () => {
+	it("Test add new student", async () => {
+		const student = await studentFactory();
+
+		const insertStudent = jest
+			.spyOn(studentRepository, "insert")
+			.mockImplementationOnce(async () => {
+				return null;
+			});
+
+		await studentService.newStudent(student);
+
+		expect(insertStudent).toBeCalled();
 	});
 });
