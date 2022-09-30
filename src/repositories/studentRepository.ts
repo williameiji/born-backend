@@ -35,3 +35,8 @@ export async function edit(student: types.TStudent, data: types.TStudent) {
 		},
 	});
 }
+
+export async function deleteStudent(id: string) {
+	const studentId = new ObjectId(id);
+	await db.students.deleteOne({ _id: studentId });
+}
