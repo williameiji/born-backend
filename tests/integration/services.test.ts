@@ -186,4 +186,17 @@ describe("Student test", () => {
 
 		expect(result.status).toBe(401);
 	});
+
+	it("Test delete student with valid params", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		const result = await server
+			.delete(`/students/${student._id}`)
+			.send(student)
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+
+		expect(result.status).toBe(202);
+	});
 });
