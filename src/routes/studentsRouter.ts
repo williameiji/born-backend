@@ -12,5 +12,10 @@ studentsRouter.put(
 	verifyToken,
 	studentController.editStudent
 );
+studentsRouter.delete(
+	"/students/:id",
+	verifyToken,
+	studentController.deleteStudent
+);
 
 export default studentsRouter;
