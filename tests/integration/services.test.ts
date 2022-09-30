@@ -194,9 +194,20 @@ describe("Student test", () => {
 
 		const result = await server
 			.delete(`/students/${student._id}`)
-			.send(student)
 			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
 
 		expect(result.status).toBe(202);
+	});
+
+	it("Test delete student with invalid params", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		const result = await server
+			.delete("/students/123124123124")
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+
+		expect(result.status).toBe(404);
 	});
 });
