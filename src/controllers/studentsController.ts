@@ -24,3 +24,11 @@ export async function editStudent(req: Request, res: Response) {
 
 	res.status(200).send("Dados editados com sucesso!");
 }
+
+export async function deleteStudent(req: Request, res: Response) {
+	const { id } = req.params;
+
+	await studentService.deleteStudent(id);
+
+	res.sendStatus(202);
+}
