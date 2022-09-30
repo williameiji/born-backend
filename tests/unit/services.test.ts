@@ -205,4 +205,20 @@ describe("Student test", () => {
 		expect(findStudent).toBeCalled();
 		expect(deleteStudent).toBeCalled();
 	});
+
+	it("Test delete student with invalid id", async () => {
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockReturnValueOnce(null);
+
+		const id = "1234567890";
+
+		const error = studentService.deleteStudent(id);
+
+		expect(findStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "NotFound",
+			message: "Aluno não encontrado!",
+		});
+	});
 });
