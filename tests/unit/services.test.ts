@@ -183,4 +183,26 @@ describe("Student test", () => {
 			message: "Aluno não encontrado!",
 		});
 	});
+
+	it("Test delete student with valid params", async () => {
+		const student = await studentFactory();
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockResolvedValueOnce({
+				...student,
+				_id: new ObjectId("6335ac0903185b58e03c4715"),
+			});
+
+		const deleteStudent = jest
+			.spyOn(studentRepository, "deleteStudent")
+			.mockImplementationOnce(async () => {});
+
+		const id = "1234567890";
+
+		await studentService.deleteStudent(id);
+
+		expect(findStudent).toBeCalled();
+		expect(deleteStudent).toBeCalled();
+	});
 });
