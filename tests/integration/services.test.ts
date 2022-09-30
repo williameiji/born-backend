@@ -210,4 +210,14 @@ describe("Student test", () => {
 
 		expect(result.status).toBe(404);
 	});
+
+	it("Test delete student without authorization token", async () => {
+		const student = await scenarioWithStudent();
+
+		const result = await server
+			.delete(`/students/${student._id}`)
+			.set({ authorization: "Bearer ", Accept: "application/json" });
+
+		expect(result.status).toBe(401);
+	});
 });
