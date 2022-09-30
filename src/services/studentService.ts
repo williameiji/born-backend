@@ -12,17 +12,21 @@ export async function findStudent(name: string) {
 }
 
 export async function editStudent(data: types.TNewStudent) {
-	const student = await studentRepository.findById(data._id);
-
-	if (!student) throw { code: "NotFound", message: "Aluno não encontrado!" };
+	const student = await checkIfStudentExist(data._id);
 
 	await studentRepository.edit(student, data);
 }
 
 export async function deleteStudent(id: string) {
+	await checkIfStudentExist(id);
+
+	await studentRepository.deleteStudent(id);
+}
+
+async function checkIfStudentExist(id: string) {
 	const student = await studentRepository.findById(id);
 
 	if (!student) throw { code: "NotFound", message: "Aluno não encontrado!" };
 
-	await studentRepository.deleteStudent(id);
+	return student;
 }
