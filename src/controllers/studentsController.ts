@@ -10,7 +10,7 @@ export async function newStudent(req: Request, res: Response) {
 }
 
 export async function findStudent(req: Request, res: Response) {
-	const name = req.params.name;
+	const { name } = req.params;
 
 	const data = await studentService.findStudent(name);
 

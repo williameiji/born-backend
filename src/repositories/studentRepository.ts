@@ -10,6 +10,10 @@ export async function findStudentByPartialName(name: string) {
 	return await db.students.find({ name: new RegExp(name, "i") }).toArray();
 }
 
+export async function sendAllStudents() {
+	return await db.students.find().toArray();
+}
+
 export async function findById(id: string): Promise<types.Student> {
 	const searchId = new ObjectId(id);
 	return (await db.students.findOne({ _id: searchId })) as types.Student;

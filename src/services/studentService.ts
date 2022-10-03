@@ -6,7 +6,13 @@ export async function newStudent(data: types.TNewStudent) {
 }
 
 export async function findStudent(name: string) {
-	const data = await studentRepository.findStudentByPartialName(name);
+	let data: any;
+
+	if (name === "all") {
+		data = await studentRepository.sendAllStudents();
+	} else {
+		data = await studentRepository.findStudentByPartialName(name);
+	}
 
 	return data;
 }
