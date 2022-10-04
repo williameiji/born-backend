@@ -142,6 +142,24 @@ describe("Student test", () => {
 		expect(result.length).toBeGreaterThanOrEqual(0);
 	});
 
+	it("Test send all students", async () => {
+		const student = await studentFactory();
+
+		const searchFor = "all";
+
+		const findStudents = jest
+			.spyOn(studentRepository, "sendAllStudents")
+			.mockResolvedValueOnce([
+				{ _id: new ObjectId("6335ac0903185b58e03c4715"), ...student },
+			]);
+
+		const result = await studentService.findStudent(searchFor);
+
+		expect(findStudents).toBeCalled();
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBeGreaterThanOrEqual(0);
+	});
+
 	it("Test edit student information with valid params", async () => {
 		const student = await studentFactory();
 
