@@ -14,9 +14,13 @@ export async function connectToDatabase() {
 
 	const database: Db = mongoClient.db(process.env.DATABASE_NAME);
 
-	const usersCollection: Collection = database.collection("users");
+	const usersCollection: Collection = database.collection(
+		process.env.USERS_COLLECTION_NAME
+	);
 
-	const studentsCollection: Collection = database.collection("students");
+	const studentsCollection: Collection = database.collection(
+		process.env.STUDENTS_COLLECTION_NAME
+	);
 
 	db = {
 		users: usersCollection,
