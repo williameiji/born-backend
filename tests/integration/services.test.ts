@@ -148,6 +148,15 @@ describe("Student test", () => {
 		expect(result.body).toBeInstanceOf(Array);
 	});
 
+	it("Test search all students", async () => {
+		const student = await scenarioWithStudent();
+
+		const result = await server.get("/students/search/all");
+
+		expect(result.status).toBe(200);
+		expect(result.body).toBeInstanceOf(Array);
+	});
+
 	it("Test edit student information with valid params", async () => {
 		const student = await scenarioWithStudent();
 
