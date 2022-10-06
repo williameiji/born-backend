@@ -13,4 +13,6 @@ paymentRouter.post(
 	paymentsController.addPayment
 );
 
+paymentRouter.get("/payments/:id", paymentsController.sendPayments);
+
 export default paymentRouter;
