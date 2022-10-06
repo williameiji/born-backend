@@ -1,7 +1,11 @@
 import { MongoClient, Collection, Db } from "mongodb";
 import dotenv from "dotenv";
 
-export let db: { users: Collection; students: Collection };
+export let db: {
+	users: Collection;
+	students: Collection;
+	payments: Collection;
+};
 
 export let mongoClient: MongoClient;
 
@@ -22,9 +26,14 @@ export async function connectToDatabase() {
 		process.env.STUDENTS_COLLECTION_NAME
 	);
 
+	const paymentsCollection: Collection = database.collection(
+		process.env.PAYMENTS_COLLECTION_NAME
+	);
+
 	db = {
 		users: usersCollection,
 		students: studentsCollection,
+		payments: paymentsCollection,
 	};
 }
 
