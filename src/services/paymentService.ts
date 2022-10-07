@@ -1,6 +1,7 @@
 import * as paymentRepository from "../repositories/paymentRepository";
+import * as types from "../infra/utils/types";
 
-export async function addPayment(data) {
+export async function addPayment(data: types.TPayments) {
 	await paymentRepository.insert(data);
 }
 

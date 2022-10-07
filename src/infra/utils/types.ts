@@ -35,3 +35,14 @@ export interface Student extends WithId<Document> {
 export type TStudent = Partial<Student>;
 
 export type TNewStudent = Omit<Student, "id">;
+
+export interface Payments extends WithId<Document> {
+	_id: ObjectId;
+	id: string;
+	name: string;
+	value: string;
+	date: string;
+	reference: string;
+}
+
+export type TPayments = Omit<Payments, "_id">;
