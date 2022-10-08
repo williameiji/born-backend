@@ -5,9 +5,11 @@ import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
 import {
 	loginScenario,
 	scenarioWithStudent,
+	scenarioPayment,
 } from "../factories/scenarioFactory";
 import { studentFactory } from "../factories/studentFactory";
 import { createToken } from "../../src/services/authService";
+import { paymentFactory } from "../factories/paymentFactory";
 
 const server = supertest(app);
 
@@ -228,5 +230,30 @@ describe("Student test", () => {
 			.set({ authorization: "Bearer ", Accept: "application/json" });
 
 		expect(result.status).toBe(401);
+	});
+});
+
+describe("Test payments", () => {
+	it("Test add new payment with valid params", async () => {
+		const student = await scenarioWithStudent();
+		const payment = await paymentFactory();
+		const token = createToken(student._id);
+
+		const result = await server
+			.post("/payments")
+			.set({ authorization: `Bearer ${token}`, Accept: "application/json" })
+			.send({ ...payment, id: student._id });
+
+		expect(result.status).toBe(201);
+	});
+
+	it("Test response from send payments", async () => {
+		const student = await scenarioWithStudent();
+		await scenarioPayment(student._id);
+
+		const result = await server.get(`/payments/${student._id}`);
+
+		expect(result.status).toBe(200);
+		expect(result.body).toBeInstanceOf(Array);
 	});
 });
