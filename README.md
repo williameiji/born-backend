@@ -1,14 +1,149 @@
-# BORN INSTITUTO DE IDIOMAS BACKEND
-
-## About
+# <p align = "center"> Born Instituto de Idiomas </p>
 
 Check project frontend [here](https://github.com/williameiji/born-frontend)
 
-## Built With
+## :clipboard: Descrição
 
-<img align="left" alt="nodejs" width="50px" src="https://user-images.githubusercontent.com/86417618/176681309-68f060af-d966-44b1-9fa6-486ed2248bad.svg" />
-<img align="left" alt="expressjs" width="50px" src="https://user-images.githubusercontent.com/86417618/176681476-9f13d771-9818-463b-8797-8fc66ddfe9c8.svg" />
-<img align="left" alt="nodemon" width="50px" src="https://user-images.githubusercontent.com/86417618/176682681-ab9eea39-7652-451a-8808-e05715c3fdc8.svg" />
-<img align="left" alt="mongodb" width="50px" src="https://user-images.githubusercontent.com/86417618/176682888-ff8a4d6a-2f3a-4f55-9e39-dcac0ed10371.svg" />
-<img align="left" alt="jwt" width="50px" src="https://user-images.githubusercontent.com/86417618/179514509-3c127ae8-9ade-4829-9b33-5fa1dfeb674e.svg" />
+Application for the company to be able to register students, post payments, see payments made, generate receipt, generate statement.
 
+---
+
+## :computer: Technologies and Concepts
+
+- REST APIs
+- Node.js
+- TypeScript
+- MongoDB
+- Joi
+- JsonWebToken
+- Jest
+- Supertest
+- Nodemon
+
+---
+
+## :rocket: Routes
+
+```yml
+POST /login
+    - Route to signin
+    - headers: {}
+    - body: {
+        "name": "Lorem Ips",
+        "password": "SuperSecrectPassword",
+      }
+```
+
+```yml
+POST /signup
+    - Route to signup a admin
+    - headers: {}
+    - body: {
+        "name": "Lorem Ips",
+        "password": "SuperSecrectPassword",
+        "key": 40302010,
+      }
+```
+
+```yml
+POST /students (authenticated)
+    - Route to add a new student
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "date": "10/10/2022",
+        "value": "150",
+        "name": "Ips Lorem",
+        "cpfStudent": "12345678912",
+        "rgStudent": "12345678",
+        "nameResp": "", (allow empty)
+        "cpfResp": "", (allow empty)
+        "rgResp": "", (allow empty)
+        "adress": "QE 11 Área Especial C",
+        "number": "123",
+        "district": "Guará I",
+        "city": "Brasília",
+        "phone": "149999999999,
+        "email": "ipslorem@gmail.com",
+    }
+```
+
+```yml
+GET /students/search/:name
+    - Route to list all students or by name
+```
+
+```yml
+PUT /students/edit (authenticated)
+    - Route to edit student information
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "date": "10/10/2022",
+        "value": "120",
+        "name": "Ips Lorem",
+        "cpfStudent": "12345678912",
+        "rgStudent": "87654321",
+        "nameResp": "", (allow empty)
+        "cpfResp": "", (allow empty)
+        "rgResp": "", (allow empty)
+        "adress": "Rua das Fiandeiras",
+        "number": "321",
+        "district": "Vila Olímpia",
+        "city": "São Paulo",
+        "phone": "149999999999,
+        "email": "ipslorem@gmail.com",
+    }
+```
+
+```yml
+DELETE /students/:id (authenticated)
+    - Route to delete a student
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+```
+
+```yml
+POST /payments (authenticated)
+    - Route to add a new payment
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "id": "123456",
+        "name": "Lorem Ips",
+        "value": "150",
+        "date": "05/10/2022",
+        "reference": "November",
+    }
+```
+
+```yml
+GET /payments/:id
+    - Route to list all payments by student id
+```
+
+```yml
+POST /e2e/cleardb 
+    - Route to clear database (only for tests)
+    - headers: {}
+    - body: {}
+```
+
+## 🏁 Running the application
+
+This project was started with the [Express](https://www.npmjs.com/package/express), so make sure you have the latest stable version of [Node.js](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/) running locally.
+
+First, clone this repository on your machine:
+
+```
+git clone https://github.com/williameiji/born-backend
+```
+
+Then, inside the folder, run the following command to install the dependencies.
+
+```
+npm install
+```
+
+Finished the process, just start the server
+
+```
+npm run dev
+```
