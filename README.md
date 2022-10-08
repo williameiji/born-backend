@@ -41,7 +41,7 @@ POST /signup
     - body: {
         "name": "Lorem Ips",
         "password": "SuperSecrectPassword",
-        "key": 40302010,
+        "key": 40302010, (use this key to create an admin)
       }
 ```
 
