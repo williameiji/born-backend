@@ -29,7 +29,7 @@ export async function deleteStudent(id: string) {
 	await studentRepository.deleteStudent(id);
 }
 
-async function checkIfStudentExist(id: string) {
+export async function checkIfStudentExist(id: string) {
 	const student = await studentRepository.findById(id);
 
 	if (!student) throw { code: "NotFound", message: "Aluno não encontrado!" };
