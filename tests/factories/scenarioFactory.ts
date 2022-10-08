@@ -2,6 +2,7 @@ import { userFactory } from "./userFactory";
 import { studentFactory } from "./studentFactory";
 import { db } from "../../src/databases/mongo";
 import bcrypt from "bcrypt";
+import { paymentFactory } from "./paymentFactory";
 
 export async function loginScenario() {
 	const user = await userFactory();
@@ -27,4 +28,10 @@ export async function scenarioWithStudent() {
 	const newStudent = await db.students.findOne({ name: student.name });
 
 	return newStudent;
+}
+
+export async function scenarioPayment(id) {
+	const payment = await paymentFactory();
+
+	await db.payments.insertOne({ ...payment, id });
 }
