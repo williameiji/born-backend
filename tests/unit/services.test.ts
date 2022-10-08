@@ -2,8 +2,11 @@ import * as authService from "../../src/services/authService";
 import * as authRepository from "../../src/repositories/authRepository";
 import * as studentService from "../../src/services/studentService";
 import * as studentRepository from "../../src/repositories/studentRepository";
+import * as paymentService from "../../src/services/paymentService";
+import * as paymentRepository from "../../src/repositories/paymentRepository";
 import { userFactory } from "../factories/userFactory";
 import { studentFactory } from "../factories/studentFactory";
+import { paymentFactory } from "../factories/paymentFactory";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 
@@ -238,5 +241,70 @@ describe("Student test", () => {
 			code: "NotFound",
 			message: "Aluno não encontrado!",
 		});
+	});
+});
+
+describe("Test payment service", () => {
+	it("Test add new payment with valid params", async () => {
+		const student = await studentFactory();
+		const payment = await paymentFactory();
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockResolvedValueOnce({
+				_id: new ObjectId("6335ac0903185b58e03c4715"),
+				...student,
+			});
+
+		const insert = jest
+			.spyOn(paymentRepository, "insert")
+			.mockImplementationOnce(async () => {});
+
+		await paymentService.addPayment(payment);
+
+		expect(findStudent).toBeCalled();
+		expect(insert).toBeCalled();
+	});
+
+	it("Test add new payment with invalid params", async () => {
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockReturnValueOnce(null);
+
+		const payment = await paymentFactory();
+
+		const error = paymentService.addPayment(payment);
+
+		expect(findStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "NotFound",
+			message: "Aluno não encontrado!",
+		});
+	});
+
+	it("Test response from send payments", async () => {
+		const student = await studentFactory();
+		const payment = await paymentFactory();
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockResolvedValueOnce({
+				_id: new ObjectId("6335ac0903185b58e03c4715"),
+				...student,
+			});
+
+		const getpayments = jest
+			.spyOn(paymentRepository, "getPayments")
+			.mockResolvedValueOnce([
+				{ _id: new ObjectId("6335ac0903185b58e03c4715"), ...payment },
+			]);
+
+		const id = "1234567890";
+
+		const payments = await paymentService.sendPayments(id);
+
+		expect(findStudent).toBeCalled();
+		expect(getpayments).toBeCalled();
+		expect(payments).toBeInstanceOf(Array);
 	});
 });
