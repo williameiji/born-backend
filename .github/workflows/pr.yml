@@ -9,19 +9,19 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          PORT: 5001
-          DATABASE_NAME: Born-Idiomas-Test
-          SECRET_KEY_TOKEN: teste
-          COMPANY_KEY: 123456
-          USERS_COLLECTION_NAME: users
-          STUDENTS_COLLECTION_NAME: students
-          PAYMENTS_COLLECTION_NAME: payments
-          MODE: DEV
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
-          ME_CONFIG_MONGODB_ADMINUSERNAME: root
-          ME_CONFIG_MONGODB_ADMINPASSWORD: example
-          ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+          envkey_PORT: 5001
+          envkey_DATABASE_NAME: Born-Idiomas-Test
+          envkey_SECRET_KEY_TOKEN: teste
+          envkey_COMPANY_KEY: 123456
+          envkey_USERS_COLLECTION_NAME: users
+          envkey_STUDENTS_COLLECTION_NAME: students
+          envkey_PAYMENTS_COLLECTION_NAME: payments
+          envkey_MODE: DEV
+          envkey_MONGO_INITDB_ROOT_USERNAME: root
+          envkey_MONGO_INITDB_ROOT_PASSWORD: example
+          envkey_ME_CONFIG_MONGODB_ADMINUSERNAME: root
+          envkey_ME_CONFIG_MONGODB_ADMINPASSWORD: example
+          envkey_ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
           file_name: .env.test
       - name: Run tests
         run: docker-compose -f docker-compose-test.yml run node_app npm run test
