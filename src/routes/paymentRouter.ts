@@ -15,4 +15,10 @@ paymentRouter.post(
 
 paymentRouter.get("/payments/:id", paymentsController.sendPayments);
 
+paymentRouter.delete(
+	"/payments/:id",
+	verifyToken,
+	paymentsController.deletePayment
+);
+
 export default paymentRouter;

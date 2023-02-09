@@ -16,3 +16,11 @@ export async function sendPayments(req: Request, res: Response) {
 
 	res.status(200).send(payments);
 }
+
+export async function deletePayment(req: Request, res: Response) {
+	const { id } = req.params;
+
+	await paymentService.deletePayment(id);
+
+	res.sendStatus(204);
+}

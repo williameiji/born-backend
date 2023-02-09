@@ -13,3 +13,7 @@ export async function sendPayments(id: string) {
 
 	return paymentRepository.getPayments(id);
 }
+
+export async function deletePayment(id: string) {
+	return paymentRepository.deletePayment(id);
+}
