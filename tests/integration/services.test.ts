@@ -129,6 +129,20 @@ describe("Auth test", () => {
 
 		expect(result.status).toBe(422);
 	});
+
+	it("Force database error on login", async () => {
+		const data = await scenarioNewUser();
+
+		delete data.key;
+
+		await mongoClient.close();
+
+		const result = await server.post("/login").send(data);
+
+		await connectToDatabase();
+
+		expect(result.status).toBe(400);
+	});
 });
 
 describe("Student test", () => {
