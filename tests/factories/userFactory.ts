@@ -4,6 +4,6 @@ export async function userFactory() {
 	return {
 		name: faker.name.firstName(),
 		password: faker.internet.password(),
-		key: 123456,
+		key: 40302010,
 	};
 }
