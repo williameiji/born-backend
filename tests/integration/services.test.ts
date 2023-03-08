@@ -3,7 +3,7 @@ import app from "../../src/index";
 import { userFactory } from "../factories/userFactory";
 import { db, mongoClient, connectToDatabase } from "../../src/databases/mongo";
 import {
-	loginScenario,
+	scenarioNewUser,
 	scenarioWithStudent,
 	scenarioPayment,
 } from "../factories/scenarioFactory";
@@ -43,7 +43,9 @@ describe("Auth test", () => {
 	it("Test signup with invalid company key", async () => {
 		const user = await userFactory();
 
-		const result = await server.post("/signup").send({ ...user, key: 654321 });
+		const result = await server
+			.post("/signup")
+			.send({ ...user, key: 654321 });
 
 		expect(result.status).toBe(401);
 	});
@@ -56,16 +58,28 @@ describe("Auth test", () => {
 		expect(result.status).toBe(422);
 	});
 
+	it("Test user conflict", async () => {
+		const user = await scenarioNewUser();
+
+		const result = await server.post("/signup").send(user);
+
+		expect(result.status).toBe(409);
+	});
+
 	it("Test signup with empty password", async () => {
 		const user = await userFactory();
 
-		const result = await server.post("/signup").send({ ...user, password: "" });
+		const result = await server
+			.post("/signup")
+			.send({ ...user, password: "" });
 
 		expect(result.status).toBe(422);
 	});
 
 	it("Test login with valid params", async () => {
-		const data = await loginScenario();
+		const data = await scenarioNewUser();
+
+		delete data.key;
 
 		const result = await server.post("/login").send(data);
 		const token = result.text;
@@ -75,15 +89,21 @@ describe("Auth test", () => {
 	});
 
 	it("Test login with invalid username", async () => {
-		const data = await loginScenario();
+		const data = await scenarioNewUser();
 
-		const result = await server.post("/login").send({ ...data, name: "teste" });
+		delete data.key;
+
+		const result = await server
+			.post("/login")
+			.send({ ...data, name: "teste" });
 
 		expect(result.status).toBe(401);
 	});
 
 	it("Test login with invalid password", async () => {
-		const data = await loginScenario();
+		const data = await scenarioNewUser();
+
+		delete data.key;
 
 		const result = await server
 			.post("/login")
@@ -93,7 +113,7 @@ describe("Auth test", () => {
 	});
 
 	it("Test login with empty username", async () => {
-		const data = await loginScenario();
+		const data = await scenarioNewUser();
 
 		const result = await server.post("/login").send({ ...data, name: "" });
 
@@ -101,9 +121,11 @@ describe("Auth test", () => {
 	});
 
 	it("Test login with empty password", async () => {
-		const data = await loginScenario();
+		const data = await scenarioNewUser();
 
-		const result = await server.post("/login").send({ ...data, password: "" });
+		const result = await server
+			.post("/login")
+			.send({ ...data, password: "" });
 
 		expect(result.status).toBe(422);
 	});
@@ -120,7 +142,10 @@ describe("Student test", () => {
 		const result = await server
 			.post("/students")
 			.send(student)
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			});
 
 		const isCreated = await db.students.findOne({
 			name: student.name,
@@ -167,7 +192,10 @@ describe("Student test", () => {
 		const result = await server
 			.put("/students/edit")
 			.send(student)
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			});
 
 		expect(result.status).toBe(200);
 	});
@@ -182,7 +210,10 @@ describe("Student test", () => {
 		const result = await server
 			.put("/students/edit")
 			.send(student)
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			});
 
 		expect(result.status).toEqual(404);
 	});
@@ -203,9 +234,10 @@ describe("Student test", () => {
 
 		const token = createToken(student._id);
 
-		const result = await server
-			.delete(`/students/${student._id}`)
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+		const result = await server.delete(`/students/${student._id}`).set({
+			authorization: `Bearer ${token}`,
+			Accept: "application/json",
+		});
 
 		expect(result.status).toBe(202);
 	});
@@ -215,9 +247,10 @@ describe("Student test", () => {
 
 		const token = createToken(student._id);
 
-		const result = await server
-			.delete("/students/123124123124")
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" });
+		const result = await server.delete("/students/123124123124").set({
+			authorization: `Bearer ${token}`,
+			Accept: "application/json",
+		});
 
 		expect(result.status).toBe(404);
 	});
@@ -241,7 +274,10 @@ describe("Test payments", () => {
 
 		const result = await server
 			.post("/payments")
-			.set({ authorization: `Bearer ${token}`, Accept: "application/json" })
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			})
 			.send({ ...payment, id: student._id });
 
 		expect(result.status).toBe(201);
