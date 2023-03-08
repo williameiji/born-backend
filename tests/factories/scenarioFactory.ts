@@ -4,19 +4,20 @@ import { db } from "../../src/databases/mongo";
 import bcrypt from "bcrypt";
 import { paymentFactory } from "./paymentFactory";
 
-export async function loginScenario() {
-	const user = await userFactory();
+export async function scenarioNewUser() {
+	const newUser = await userFactory();
 	const SALT = 10;
 
-	const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+	const encryptedPassword = bcrypt.hashSync(newUser.password, SALT);
 
-	const userLogin = { name: user.name, password: encryptedPassword };
+	const user = { name: newUser.name, password: encryptedPassword };
 
-	await db.users.insertOne(userLogin);
+	await db.users.insertOne(user);
 
 	return {
-		name: user.name,
-		password: user.password,
+		name: newUser.name,
+		password: newUser.password,
+		key: newUser.key,
 	};
 }
 
