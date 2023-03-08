@@ -9,7 +9,13 @@ import * as types from "../infra/utils/types";
 dotenv.config();
 
 export async function login(data: types.TLogin) {
-	const user = await authRepository.findUserByName(data.name);
+	let user;
+
+	try {
+		user = await authRepository.findUserByName(data.name);
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
+	}
 
 	const token = checkPassword(user, data);
 
