@@ -192,6 +192,14 @@ describe("Student test", () => {
 		expect(result.status).toBe(401);
 	});
 
+	it("Test add new student without send a token", async () => {
+		const student = await studentFactory();
+
+		const result = await server.post("/students").send(student);
+
+		expect(result.status).toBe(403);
+	});
+
 	it("Test search student with partial name", async () => {
 		const student = await scenarioWithStudent();
 
