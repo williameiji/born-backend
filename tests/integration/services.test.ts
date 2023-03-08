@@ -143,6 +143,18 @@ describe("Auth test", () => {
 
 		expect(result.status).toBe(400);
 	});
+
+	it("Force database error on signup", async () => {
+		const data = await userFactory();
+
+		await mongoClient.close();
+
+		const result = await server.post("/signup").send(data);
+
+		await connectToDatabase();
+
+		expect(result.status).toBe(400);
+	});
 });
 
 describe("Student test", () => {
