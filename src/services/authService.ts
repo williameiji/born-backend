@@ -23,7 +23,13 @@ export async function login(data: types.TLogin) {
 }
 
 export async function signup(data: types.TAuth) {
-	const user = await authRepository.findUserByName(data.name);
+	let user;
+
+	try {
+		user = await authRepository.findUserByName(data.name);
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
+	}
 
 	if (user) throw { code: "Conflict", message: "Usuário já cadastrado!" };
 
