@@ -5,6 +5,8 @@ import { connectToDatabase } from "../src/databases/mongo";
 dotenv.config();
 connectToDatabase();
 
-app.listen(process.env.PORT, () => {
-	console.log("Server running on port " + process.env.PORT);
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+	console.log("Server running on port " + PORT);
 });
