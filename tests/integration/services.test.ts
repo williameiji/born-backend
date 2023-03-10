@@ -378,4 +378,17 @@ describe("Test payments", () => {
 		expect(result.status).toBe(200);
 		expect(result.body).toBeInstanceOf(Array);
 	});
+
+	it("Test delete payment", async () => {
+		const student = await scenarioWithStudent();
+		await scenarioPayment(student._id);
+		const token = createToken(student._id);
+
+		const result = await server.delete(`/payments/${student._id}`).set({
+			authorization: `Bearer ${token}`,
+			Accept: "application/json",
+		});
+
+		expect(result.status).toBe(204);
+	});
 });
