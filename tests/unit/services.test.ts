@@ -79,7 +79,10 @@ describe("Auth test", () => {
 
 		const findUser = jest
 			.spyOn(authRepository, "findUserByName")
-			.mockResolvedValueOnce({ name: user.name, password: encryptedPassword });
+			.mockResolvedValueOnce({
+				name: user.name,
+				password: encryptedPassword,
+			});
 
 		const result = await authService.login(user);
 
@@ -97,7 +100,10 @@ describe("Auth test", () => {
 
 		const findUser = jest
 			.spyOn(authRepository, "findUserByName")
-			.mockResolvedValueOnce({ name: user.name, password: encryptedPassword });
+			.mockResolvedValueOnce({
+				name: user.name,
+				password: encryptedPassword,
+			});
 
 		const error = authService.login({ ...user, password: "teste12345" });
 
@@ -105,6 +111,25 @@ describe("Auth test", () => {
 		expect(error).rejects.toEqual({
 			code: "Anauthorized",
 			message: "Login/Senha incorretos",
+		});
+	});
+
+	it("Test find user with database offline", async () => {
+		const user = await userFactory();
+		delete user.key;
+
+		const findUser = jest
+			.spyOn(authRepository, "findUserByName")
+			.mockImplementation(() => {
+				throw new Error();
+			});
+
+		const error = authService.login(user);
+
+		expect(findUser).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "BadRequest",
+			message: "Erro no banco de dados",
 		});
 	});
 });
