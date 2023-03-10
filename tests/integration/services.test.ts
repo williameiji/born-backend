@@ -318,6 +318,16 @@ describe("Student test", () => {
 
 		expect(result.status).toBe(400);
 	});
+
+	it("Force database error to find a student", async () => {
+		await mongoClient.close();
+
+		const result = await server.get("/students/search/teste");
+
+		await connectToDatabase();
+
+		expect(result.status).toBe(400);
+	});
 });
 
 describe("Test payments", () => {
