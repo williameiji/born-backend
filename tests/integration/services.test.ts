@@ -328,6 +328,28 @@ describe("Student test", () => {
 
 		expect(result.status).toBe(400);
 	});
+
+	it("Force database error on edit student information", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		delete student._id;
+
+		await mongoClient.close();
+
+		const result = await server
+			.put("/students/edit")
+			.send(student)
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			});
+
+		await connectToDatabase();
+
+		expect(result.status).toBe(400);
+	});
 });
 
 describe("Test payments", () => {
