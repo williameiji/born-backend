@@ -9,13 +9,7 @@ import * as types from "../infra/utils/types";
 dotenv.config();
 
 export async function login(data: types.TLogin) {
-	let user;
-
-	try {
-		user = await authRepository.findUserByName(data.name);
-	} catch (error) {
-		throw { code: "BadRequest", message: "Erro no banco de dados" };
-	}
+	const user = await findUserByName(data.name);
 
 	const token = checkPassword(user, data);
 
@@ -23,13 +17,7 @@ export async function login(data: types.TLogin) {
 }
 
 export async function signup(data: types.TAuth) {
-	let user;
-
-	try {
-		user = await authRepository.findUserByName(data.name);
-	} catch (error) {
-		throw { code: "BadRequest", message: "Erro no banco de dados" };
-	}
+	const user = await findUserByName(data.name);
 
 	if (user) throw { code: "Conflict", message: "Usuário já cadastrado!" };
 
@@ -42,7 +30,7 @@ export async function signup(data: types.TAuth) {
 	}
 }
 
-function checkPassword(user: types.TLogin, data: types.TLogin) {
+function checkPassword(user: types.TLogin, data: types.TLogin): string {
 	if (user && bcrypt.compareSync(data.password, user.password)) {
 		const token = createToken(user.id);
 
@@ -66,4 +54,12 @@ export function createToken(id: ObjectId) {
 		process.env.SECRET_KEY_TOKEN,
 		{ expiresIn: 60 * 60 }
 	);
+}
+
+async function findUserByName(name: string): Promise<types.TUser> {
+	try {
+		return await authRepository.findUserByName(name);
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
+	}
 }
