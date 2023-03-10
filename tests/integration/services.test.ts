@@ -210,8 +210,6 @@ describe("Student test", () => {
 	});
 
 	it("Test search all students", async () => {
-		const student = await scenarioWithStudent();
-
 		const result = await server.get("/students/search/all");
 
 		expect(result.status).toBe(200);
@@ -297,6 +295,28 @@ describe("Student test", () => {
 			.set({ authorization: "Bearer ", Accept: "application/json" });
 
 		expect(result.status).toBe(401);
+	});
+
+	it("Force database error on new student", async () => {
+		const student = await scenarioWithStudent();
+
+		const token = createToken(student._id);
+
+		delete student._id;
+
+		await mongoClient.close();
+
+		const result = await server
+			.post("/students")
+			.send(student)
+			.set({
+				authorization: `Bearer ${token}`,
+				Accept: "application/json",
+			});
+
+		await connectToDatabase();
+
+		expect(result.status).toBe(400);
 	});
 });
 
