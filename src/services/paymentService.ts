@@ -15,5 +15,7 @@ export async function sendPayments(id: string) {
 }
 
 export async function deletePayment(id: string) {
+	await studentService.checkIfStudentExist(id);
+
 	return paymentRepository.deletePayment(id);
 }
