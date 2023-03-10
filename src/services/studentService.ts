@@ -2,16 +2,24 @@ import * as studentRepository from "../repositories/studentRepository";
 import * as types from "../infra/utils/types";
 
 export async function newStudent(data: types.TNewStudent) {
-	await studentRepository.insert(data);
+	try {
+		await studentRepository.insert(data);
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
+	}
 }
 
 export async function findStudent(name: string) {
-	let data: any;
+	let data: types.TStudent[];
 
-	if (name === "all") {
-		data = await studentRepository.sendAllStudents();
-	} else {
-		data = await studentRepository.findStudentByPartialName(name);
+	try {
+		if (name === "all") {
+			data = await studentRepository.sendAllStudents();
+		} else {
+			data = await studentRepository.findStudentByPartialName(name);
+		}
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
 	}
 
 	return data;
@@ -30,7 +38,13 @@ export async function deleteStudent(id: string) {
 }
 
 export async function checkIfStudentExist(id: string) {
-	const student = await studentRepository.findById(id);
+	let student: types.Student;
+
+	try {
+		student = await studentRepository.findById(id);
+	} catch (error) {
+		throw { code: "BadRequest", message: "Erro no banco de dados" };
+	}
 
 	if (!student) throw { code: "NotFound", message: "Aluno não encontrado!" };
 
