@@ -23,5 +23,7 @@ export default {
 		"<rootDir>/src/utils",
 		"<rootDir>/src/config",
 		"<rootDir>/tests/factories",
+		"<rootDir>/src/controllers/e2eController.ts",
+		"<rootDir>/src/services/e2eService.ts",
 	],
 };
