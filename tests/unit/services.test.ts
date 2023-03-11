@@ -267,6 +267,24 @@ describe("Student test", () => {
 			message: "Aluno não encontrado!",
 		});
 	});
+
+	it("Test add new student with database offline", async () => {
+		const student = await studentFactory();
+
+		const newStudent = jest
+			.spyOn(studentRepository, "insert")
+			.mockImplementation(() => {
+				throw new Error();
+			});
+
+		const error = studentService.newStudent(student);
+
+		expect(newStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "BadRequest",
+			message: "Erro no banco de dados",
+		});
+	});
 });
 
 describe("Test payment service", () => {
