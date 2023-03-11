@@ -301,6 +301,24 @@ describe("Student test", () => {
 			message: "Erro no banco de dados",
 		});
 	});
+
+	it("Test edit student with database offline", async () => {
+		const student = await studentFactory();
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockImplementation(() => {
+				throw new Error();
+			});
+
+		const error = studentService.editStudent(student);
+
+		expect(findStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "BadRequest",
+			message: "Erro no banco de dados",
+		});
+	});
 });
 
 describe("Test payment service", () => {
