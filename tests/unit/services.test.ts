@@ -384,4 +384,25 @@ describe("Test payment service", () => {
 		expect(getpayments).toBeCalled();
 		expect(payments).toBeInstanceOf(Array);
 	});
+
+	it("Test delete payments", async () => {
+		const student = await studentFactory();
+		const payment = await paymentFactory();
+
+		const findStudent = jest
+			.spyOn(studentRepository, "findById")
+			.mockResolvedValueOnce({
+				_id: new ObjectId("6335ac0903185b58e03c4715"),
+				...student,
+			});
+
+		const deletePayment = jest
+			.spyOn(paymentRepository, "deletePayment")
+			.mockResolvedValueOnce();
+
+		await paymentService.deletePayment(payment.id);
+
+		expect(findStudent).toBeCalled();
+		expect(deletePayment).toBeCalled();
+	});
 });
