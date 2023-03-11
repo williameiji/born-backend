@@ -285,6 +285,22 @@ describe("Student test", () => {
 			message: "Erro no banco de dados",
 		});
 	});
+
+	it("Test find student with database offline", async () => {
+		const findStudent = jest
+			.spyOn(studentRepository, "sendAllStudents")
+			.mockImplementation(() => {
+				throw new Error();
+			});
+
+		const error = studentService.findStudent("all");
+
+		expect(findStudent).toBeCalled();
+		expect(error).rejects.toEqual({
+			code: "BadRequest",
+			message: "Erro no banco de dados",
+		});
+	});
 });
 
 describe("Test payment service", () => {
