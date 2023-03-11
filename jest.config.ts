@@ -25,5 +25,6 @@ export default {
 		"<rootDir>/tests/factories",
 		"<rootDir>/src/controllers/e2eController.ts",
 		"<rootDir>/src/services/e2eService.ts",
+		"<rootDir>/src/databases/mongo.ts",
 	],
 };
