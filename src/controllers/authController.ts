@@ -17,3 +17,11 @@ export async function signup(req: Request, res: Response) {
 
 	res.sendStatus(201);
 }
+
+export async function initializingServer(req: Request, res: Response) {
+	setTimeout(() => {
+		console.log("Ok");
+	}, 5000);
+
+	res.sendStatus(200);
+}

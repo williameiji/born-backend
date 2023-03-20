@@ -7,6 +7,7 @@ import signupSchema from "../infra/schemas/signupSchema";
 
 const authRouter = Router();
 
+authRouter.post("/init", authController.initializingServer); //only for render.com
 authRouter.post("/login", validateSchema(loginSchema), authController.login);
 authRouter.post("/signup", validateSchema(signupSchema), authController.signup);
 
