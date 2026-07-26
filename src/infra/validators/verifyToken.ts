@@ -9,13 +9,13 @@ async function verifyToken(req: Request, res: Response, next: NextFunction) {
 	const token = getToken?.replace("Bearer ", "");
 
 	if (!token) {
-		return res.status(403).send("Um token é necessario para autenticação");
+		return res.status(401).send("Um token é necessário para autenticação.");
 	}
 	try {
-		jwt.verify(token, process.env.SECRET_KEY_TOKEN);
+		jwt.verify(token, process.env.SECRET_KEY_TOKEN as string);
 		next();
 	} catch (err) {
-		return res.status(401).send("Token inválido");
+		return res.status(401).send("Token inválido ou expirado.");
 	}
 }
 
