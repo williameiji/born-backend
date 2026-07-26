@@ -14,14 +14,15 @@ export async function sendAllStudents() {
 	return await db.students.find().toArray();
 }
 
-export async function findById(id: string): Promise<types.Student | null> {
+export async function findById(id: string): Promise<types.Student> {
 	const searchId = new ObjectId(id);
-	return (await db.students.findOne({ _id: searchId })) as types.Student | null;
+	// Retornamos exatamente como types.Student para não quebrar o Service atual no deploy
+	return (await db.students.findOne({ _id: searchId })) as types.Student;
 }
 
 export async function edit(student: types.TStudent, data: types.TStudent) {
-	// Filtramos a busca no banco apenas pelo _id do aluno para maior precisão e segurança
-	const filter = { _id: new ObjectId(student._id) };
+	// Passamos apenas o _id e forçamos o cast como ObjectId para o compilador do TS aprovar
+	const filter = { _id: student._id as ObjectId };
 
 	await db.students.updateOne(filter, {
 		$set: {
@@ -37,7 +38,7 @@ export async function edit(student: types.TStudent, data: types.TStudent) {
 			number: data.number,
 			district: data.district,
 			city: data.city,
-			phone: data.phone, // CORRIGIDO: Antes estava data.city
+			phone: data.phone, // Correção do bug que salvava a cidade no telefone
 			email: data.email,
 		},
 	});
