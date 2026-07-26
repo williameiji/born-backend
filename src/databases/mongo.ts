@@ -12,7 +12,7 @@ export let db: {
 export let mongoClient: MongoClient;
 
 export async function connectToDatabase() {
-	mongoClient = new MongoClient(process.env.ME_CONFIG_MONGODB_URL);
+	mongoClient = new MongoClient(process.env.ME_CONFIG_MONGODB_URL as string);
 
 	await mongoClient.connect();
 
