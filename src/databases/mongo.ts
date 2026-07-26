@@ -16,18 +16,19 @@ export async function connectToDatabase() {
 
 	await mongoClient.connect();
 
-	const database: Db = mongoClient.db(process.env.DATABASE_NAME);
+	// Adicionado 'as string' para garantir ao TypeScript que a variável existe
+	const database: Db = mongoClient.db(process.env.DATABASE_NAME as string);
 
 	const usersCollection: Collection = database.collection(
-		process.env.USERS_COLLECTION_NAME
+		process.env.USERS_COLLECTION_NAME as string
 	);
 
 	const studentsCollection: Collection = database.collection(
-		process.env.STUDENTS_COLLECTION_NAME
+		process.env.STUDENTS_COLLECTION_NAME as string
 	);
 
 	const paymentsCollection: Collection = database.collection(
-		process.env.PAYMENTS_COLLECTION_NAME
+		process.env.PAYMENTS_COLLECTION_NAME as string
 	);
 
 	db = {
@@ -36,5 +37,3 @@ export async function connectToDatabase() {
 		payments: paymentsCollection,
 	};
 }
-
-// connectToDatabase();
