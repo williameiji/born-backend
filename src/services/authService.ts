@@ -5,6 +5,7 @@ import { ObjectId } from "mongodb";
 
 import * as authRepository from "../repositories/authRepository";
 import * as types from "../infra/utils/types";
+import { AppError } from "../infra/utils/AppError"; // Importamos a nossa classe de erros
 
 dotenv.config();
 
@@ -19,24 +20,30 @@ export async function login(data: types.TLogin) {
 export async function signup(data: types.TAuth) {
 	const user = await findUserByName(data.name);
 
-	if (user) throw { code: "Conflict", message: "Usuário já cadastrado!" };
+	// Atualizado para usar o AppError
+	if (user) throw new AppError("Conflict", "Usuário já cadastrado!");
 
 	const encryptedPassword = encryptPassword(data.password);
 
-	if (data.key === Number(process.env.COMPANY_KEY)) {
+	// Adicionado 'as string' no COMPANY_KEY para o TypeScript aprovar
+	if (data.key === Number(process.env.COMPANY_KEY as string)) {
 		await authRepository.insert({ ...data, password: encryptedPassword });
 	} else {
-		throw { code: "Anauthorized", message: "Chave da empresa incorreta" };
+		// Corrigido de "Anauthorized" para "Unauthorized"
+		throw new AppError("Unauthorized", "Chave da empresa incorreta");
 	}
 }
 
-function checkPassword(user: types.TLogin, data: types.TLogin): string {
+// Alterei o primeiro parâmetro para TUser, já que é isso que o banco de dados retorna
+function checkPassword(user: types.TUser, data: types.TLogin): string {
 	if (user && bcrypt.compareSync(data.password, user.password)) {
-		const token = createToken(user.id);
+		// No MongoDB o ID nativo é _id. Usamos um fallback genérico aqui
+		const token = createToken((user as any)._id || user.id);
 
 		return token;
 	} else {
-		throw { code: "Anauthorized", message: "Login/Senha incorretos" };
+		// Corrigido de "Anauthorized" para "Unauthorized"
+		throw new AppError("Unauthorized", "Login/Senha incorretos");
 	}
 }
 
@@ -51,6 +58,7 @@ export function createToken(id: ObjectId) {
 		{
 			id,
 		},
+		// Adicionado 'as string' aqui! Era isso que estava quebrando o deploy
 		process.env.SECRET_KEY_TOKEN as string,
 		{ expiresIn: 60 * 60 }
 	);
@@ -60,6 +68,6 @@ async function findUserByName(name: string): Promise<types.TUser> {
 	try {
 		return await authRepository.findUserByName(name);
 	} catch (error) {
-		throw { code: "BadRequest", message: "Erro no banco de dados" };
+		throw new AppError("BadRequest", "Erro no banco de dados");
 	}
 }
