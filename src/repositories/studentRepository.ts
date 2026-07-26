@@ -14,13 +14,16 @@ export async function sendAllStudents() {
 	return await db.students.find().toArray();
 }
 
-export async function findById(id: string): Promise<types.Student> {
+export async function findById(id: string): Promise<types.Student | null> {
 	const searchId = new ObjectId(id);
-	return (await db.students.findOne({ _id: searchId })) as types.Student;
+	return (await db.students.findOne({ _id: searchId })) as types.Student | null;
 }
 
 export async function edit(student: types.TStudent, data: types.TStudent) {
-	await db.students.updateOne(student, {
+	// Filtramos a busca no banco apenas pelo _id do aluno para maior precisão e segurança
+	const filter = { _id: new ObjectId(student._id) };
+
+	await db.students.updateOne(filter, {
 		$set: {
 			date: data.date,
 			value: data.value,
@@ -34,7 +37,7 @@ export async function edit(student: types.TStudent, data: types.TStudent) {
 			number: data.number,
 			district: data.district,
 			city: data.city,
-			phone: data.city,
+			phone: data.phone, // CORRIGIDO: Antes estava data.city
 			email: data.email,
 		},
 	});
