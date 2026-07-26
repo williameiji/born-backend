@@ -9,9 +9,7 @@ export interface Auth extends WithId<Document> {
 }
 
 export type TAuth = Omit<Auth, "id">;
-
 export type TLogin = Omit<Auth, "id" | "key">;
-
 export type TUser = Omit<Auth, "key">;
 
 export interface Student extends WithId<Document> {
@@ -34,7 +32,8 @@ export interface Student extends WithId<Document> {
 
 export type TStudent = Partial<Student>;
 
-export type TNewStudent = Omit<Student, "id">;
+// CORREÇÃO: "id" alterado para "_id" para corresponder exatamente à interface Student
+export type TNewStudent = Omit<Student, "_id">;
 
 export interface Payments extends WithId<Document> {
 	_id: ObjectId;
