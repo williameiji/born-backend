@@ -64,7 +64,7 @@ describe("Auth test", () => {
 
 		expect(findUser).toBeCalled();
 		expect(error).rejects.toEqual({
-			code: "Unauthorized",
+			code: "Anauthorized",
 			message: "Chave da empresa incorreta",
 		});
 	});
@@ -109,7 +109,7 @@ describe("Auth test", () => {
 
 		expect(findUser).toBeCalled();
 		expect(error).rejects.toEqual({
-			code: "Unauthorized",
+			code: "Anauthorized",
 			message: "Login/Senha incorretos",
 		});
 	});
