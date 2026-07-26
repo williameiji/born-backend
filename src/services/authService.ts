@@ -51,7 +51,7 @@ export function createToken(id: ObjectId) {
 		{
 			id,
 		},
-		process.env.SECRET_KEY_TOKEN,
+		process.env.SECRET_KEY_TOKEN as string,
 		{ expiresIn: 60 * 60 }
 	);
 }
