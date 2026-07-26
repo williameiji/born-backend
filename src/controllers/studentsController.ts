@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import * as studentService from "../services/studentService";
+import * as types from "../infra/utils/types";
 
 export async function newStudent(req: Request, res: Response) {
-	const data = req.body;
+	const data: types.TNewStudent = req.body;
 
 	await studentService.newStudent(data);
 
-	res.status(201).send("Cadastro efetuado com sucesso");
+	return res.status(201).send("Cadastro efetuado com sucesso");
 }
 
 export async function findStudent(req: Request, res: Response) {
@@ -14,15 +15,15 @@ export async function findStudent(req: Request, res: Response) {
 
 	const data = await studentService.findStudent(name);
 
-	res.send(data);
+	return res.status(200).send(data);
 }
 
 export async function editStudent(req: Request, res: Response) {
-	const data = req.body;
+	const data: types.TStudent = req.body;
 
 	await studentService.editStudent(data);
 
-	res.status(200).send("Dados editados com sucesso!");
+	return res.status(200).send("Dados editados com sucesso!");
 }
 
 export async function deleteStudent(req: Request, res: Response) {
@@ -30,5 +31,5 @@ export async function deleteStudent(req: Request, res: Response) {
 
 	await studentService.deleteStudent(id);
 
-	res.sendStatus(202);
+	return res.status(202).send("Aluno removido com sucesso!");
 }
