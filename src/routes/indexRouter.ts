@@ -1,8 +1,4 @@
 import { Router } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
-
 import authRouter from "./authRouter";
 import studentsRouter from "./studentsRouter";
 import paymentRouter from "./paymentRouter";
